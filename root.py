@@ -20,8 +20,12 @@ game_types = [
         'charge': 7.00
     },
     {
-        'name': 'Pool',
+        'name': 'Bilardo',
         'charge': 10.00
+    },
+    {
+        'name': 'Langırt',
+        'charge': 1.00
     }
 ]
 
@@ -40,8 +44,21 @@ bill_detail_frame = Frame(root, width=400, height=908, highlightbackground="Purp
 bill_detail_frame.pack(side=LEFT, fill=BOTH)
 
 
+saved_clicked_game_slot = -1
+
+
 def generate_bill_details(event):
-    print("hey")
+    global saved_clicked_game_slot
+    clicked_game_slot = event.widget
+
+    if saved_clicked_game_slot == clicked_game_slot:
+        clicked_game_slot.config(highlightbackground="black")
+        saved_clicked_game_slot = -1
+    else:
+        clicked_game_slot.config(highlightbackground="red")
+        if saved_clicked_game_slot != -1:
+            saved_clicked_game_slot.config(highlightbackground="black")
+        saved_clicked_game_slot = clicked_game_slot
 
 
 for i in range(0, len(game_slot_places)):
