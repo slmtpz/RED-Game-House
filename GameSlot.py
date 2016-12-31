@@ -11,6 +11,7 @@ class GameSlot(Frame):
         self.game_type = game_type
         self.total_charge = 0.00
         self.status = 0
+        self.number_of_players = 0
 
         self.set_inner_widgets()
 
@@ -40,15 +41,26 @@ class GameSlot(Frame):
         game_type_label = Label(top_right_frame, text=self.game_type['name'], font=("Helvetica", 16))
         game_type_label.pack(side=RIGHT)
 
+        self.number_of_players_var = StringVar(middle_left_frame)
+        number_of_players_option = OptionMenu(middle_left_frame, self.number_of_players_var, *[1, 2, 3, 4, 5, 6])
+        self.number_of_players_var.set(2)
+        number_of_players_option.pack(side=LEFT)
+
         self.start_button = Button(middle_left_frame, text="Başlat", fg="green", font=("Helvetica", 12))
         self.start_button.bind("<Button-1>", self.start)
         self.start_button.pack(side=LEFT)
 
+        self.change_number_of_players_button = Button(middle_left_frame, text="Değiştir", fg="orange", font=("Helvetica", 12))
+        self.change_number_of_players_button.bind("<Button-1>", self.change_number_of_players)
+
         self.finish_button = Button(middle_right_frame, text="Bitir", fg="red", font=("Helvetica", 12))
         self.finish_button.bind("<Button-1>", self.finish)
 
-        self.charge_label = Label(bottom_frame, text=self.total_charge, font=("Helvetica", 24))
+        self.status_text = StringVar()
+        self.status_text.set(str(self.total_charge) + " / " + str(self.number_of_players))
+        self.charge_label = Label(bottom_frame, textvariable=self.status_text, font=("Helvetica", 26))
         self.charge_label.pack()
+
 
     def set_clicked(self):
         self.config(highlightbackground="red")
@@ -61,11 +73,22 @@ class GameSlot(Frame):
         self.charge_label.config(fg="red")
         self.start_button.pack_forget()
         self.finish_button.pack(side=RIGHT)
+        self.change_number_of_players_button.pack(side=LEFT)
+        self.number_of_players = self.number_of_players_var.get()
+        self.status_text.set(str(self.total_charge) + " / " + str(self.number_of_players))
+
+    def change_number_of_players(self, event):
+        self.number_of_players = self.number_of_players_var.get()
+        self.status_text.set(str(self.total_charge) + " / " + str(self.number_of_players))
 
     def finish(self, event):
         self.status = 0
         self.charge_label.config(fg="black")
         self.finish_button.pack_forget()
+        self.change_number_of_players_button.forget()
         self.start_button.pack(side=LEFT)
+        self.number_of_players = 0
+        self.status_text.set(str(self.total_charge) + " / " + str(self.number_of_players))
+
 
 
