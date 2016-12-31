@@ -1,5 +1,5 @@
 from tkinter import *
-from GameSlot import *
+from GameSlot import GameSlot
 import random
 
 
@@ -52,12 +52,12 @@ def generate_bill_details(event):
     clicked_game_slot = event.widget
 
     if saved_clicked_game_slot == clicked_game_slot:
-        clicked_game_slot.config(highlightbackground="black")
+        clicked_game_slot.set_released()
         saved_clicked_game_slot = -1
     else:
-        clicked_game_slot.config(highlightbackground="red")
+        clicked_game_slot.set_clicked()
         if saved_clicked_game_slot != -1:
-            saved_clicked_game_slot.config(highlightbackground="black")
+            saved_clicked_game_slot.set_released()
         saved_clicked_game_slot = clicked_game_slot
 
 
