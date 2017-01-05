@@ -7,7 +7,7 @@ class GameSlot(Frame):
 
     def __init__(self, game_slots_frame, slot_number, game_type, bill=Bill()):
 
-        Frame.__init__(self, game_slots_frame, width=200, height=160, highlightbackground="black", highlightthickness=3)
+        Frame.__init__(self, game_slots_frame, width=280, height=120, highlightbackground="black", highlightthickness=3)
 
         self.slot_number = slot_number
         self.game_type = game_type
@@ -59,6 +59,9 @@ class GameSlot(Frame):
         self.finish_button = Button(middle_right_frame, text="Bitir", fg="red", font=("Helvetica", 12))
         self.finish_button.bind("<Button-1>", self.finish)
 
+        self.pay_bill_button = Button(middle_right_frame, text="Kapa", fg="red", font=("Helvetica", 12))
+        self.pay_bill_button.bind("<Button-1>", self.pay_bill)
+
         self.game_status_text = StringVar()
         self.game_status_text.set(str(self.bill.total_charge) + " / " + str(self.number_of_players))
         self.charge_label = Label(bottom_frame, textvariable=self.game_status_text, font=("Helvetica", 26))
@@ -96,6 +99,7 @@ class GameSlot(Frame):
         self.number_of_players = self.number_of_players_var.get()
         self.game_status_text.set(str(self.bill.total_charge) + " / " + str(self.number_of_players))
         self.charge_label.pack()
+        self.pay_bill_button.pack_forget()
         self.finish_button.pack(side=RIGHT)
         self.change_number_of_players_button.pack(side=LEFT)
 
@@ -115,13 +119,17 @@ class GameSlot(Frame):
     def set_finish_ui(self):
         self.charge_label.config(fg="black")
         self.finish_button.pack_forget()
+        self.pay_bill_button.pack(side=RIGHT)
         self.change_number_of_players_button.forget()
         self.game_status_text.set(str(self.bill.total_charge))
         self.after(1000, self.start_button.pack(side=LEFT))
 
-    def pay_bill(self):
+    def pay_bill(self, event):
+        self.set_pay_bill_ui()
         self.bill = Bill()
-        self.charge_label.forget()
 
+    def set_pay_bill_ui(self):
+        self.pay_bill_button.pack_forget()
+        self.charge_label.pack_forget()
 
 

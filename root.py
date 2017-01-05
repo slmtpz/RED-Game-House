@@ -3,13 +3,8 @@ from GameSlot import GameSlot
 import random
 
 
-number_of_game_slots = 14
+number_of_game_slots = 22
 max_game_slots_in_one_row = 5
-game_slot_places = [1, 1, 1, 1, 1,
-                    1, 0, 0, 0, 1,
-                    0, 0, 1, 1, 1,
-                    0, 0, 1, 1, 1,
-                    1, 1, 0]
 game_types = [
     {
         'name': 'Playstation',
@@ -37,10 +32,10 @@ root.wm_title("RED Game House")
 # after all is finished, get the full screen size and assign frames with percentages..
 
 
-game_slots_frame = Frame(root, width=1100, height=908, highlightbackground="Orange", highlightthickness=4)
+game_slots_frame = Frame(root, width=500, height=608, highlightbackground="Orange", highlightthickness=4)
 game_slots_frame.pack(side=LEFT, fill=BOTH)
 
-bill_detail_frame = Frame(root, width=400, height=908, highlightbackground="Purple", highlightthickness=4)
+bill_detail_frame = Frame(root, width=400, height=608, highlightbackground="Purple", highlightthickness=4)
 bill_detail_frame.pack(side=LEFT, fill=BOTH)
 
 
@@ -61,7 +56,7 @@ def generate_bill_details(event):
         saved_clicked_game_slot = clicked_game_slot
 
 
-for i in range(0, len(game_slot_places)):
+for i in range(0, number_of_game_slots):
     game_slot = GameSlot(game_slots_frame, i + 1, random.choice(game_types))
     game_slot.grid(row=int(i/max_game_slots_in_one_row), column=i % max_game_slots_in_one_row, padx=10, pady=10)
     game_slot.bind("<Button-1>", generate_bill_details)
