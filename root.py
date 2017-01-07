@@ -1,5 +1,6 @@
 from tkinter import *
 from GameSlot import GameSlot
+from BillDetails import BillDetails
 import random
 
 
@@ -54,12 +55,16 @@ def generate_bill_details(event):
         if saved_clicked_game_slot != -1:
             saved_clicked_game_slot.set_released()
         saved_clicked_game_slot = clicked_game_slot
+        bill_details.set_bill_for_game_slot(clicked_game_slot)
 
 
 for i in range(0, number_of_game_slots):
     game_slot = GameSlot(game_slots_frame, i + 1, random.choice(game_types))
     game_slot.grid(row=int(i/max_game_slots_in_one_row), column=i % max_game_slots_in_one_row, padx=10, pady=10)
     game_slot.bind("<Button-1>", generate_bill_details)
+
+bill_details = BillDetails(bill_detail_frame)
+bill_details.pack(side=LEFT, fill=BOTH)
 
 root.update()
 print("height")

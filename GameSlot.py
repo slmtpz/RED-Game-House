@@ -1,11 +1,10 @@
 from tkinter import *
 from Bill import *
-import time
 
 
 class GameSlot(Frame):
 
-    def __init__(self, game_slots_frame, slot_number, game_type, bill=Bill()):
+    def __init__(self, game_slots_frame, slot_number, game_type, bill=False):
 
         Frame.__init__(self, game_slots_frame, width=280, height=120, highlightbackground="black", highlightthickness=3)
 
@@ -14,7 +13,10 @@ class GameSlot(Frame):
         self.game_status = 0
         self.number_of_players = 0
         self.time_passed_in_sec = IntVar()
-        self.bill = bill
+        if bill:
+            self.bill = bill
+        else:
+            self.bill = Bill()
 
         self.set_inner_widgets()
 
@@ -104,13 +106,13 @@ class GameSlot(Frame):
         self.change_number_of_players_button.pack(side=LEFT)
 
     def change_number_of_players(self, event):
-        self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec)
+        self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec.get())
         self.number_of_players = self.number_of_players_var.get()
         self.time_passed_in_sec.set(0)
         self.game_status_text.set(str(self.bill.total_charge) + " / " + str(self.number_of_players))
 
     def finish(self, event):
-        self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec)
+        self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec.get())
         self.game_status = 0
         self.number_of_players = 0
 
