@@ -65,7 +65,7 @@ class GameSlot(Frame):
         self.pay_bill_button.bind("<Button-1>", self.pay_bill)
 
         self.game_status_text = StringVar()
-        self.game_status_text.set(str(self.bill.total_charge) + " / " + str(self.number_of_players))
+        self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
         self.charge_label = Label(bottom_frame, textvariable=self.game_status_text, font=("Helvetica", 26))
 
         ## debug
@@ -76,7 +76,7 @@ class GameSlot(Frame):
     def second_hit(self):
         if self.game_status == 1:
             self.time_passed_in_sec.set(self.time_passed_in_sec.get() + 1)
-            self.game_status_text.set(str(self.bill.total_charge) + " / " + str(self.number_of_players))
+            self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
             self.after(1000, self.second_hit)
 
     def set_clicked(self):
@@ -99,7 +99,7 @@ class GameSlot(Frame):
         self.charge_label.config(fg="red")
         self.start_button.pack_forget()
         self.number_of_players = self.number_of_players_var.get()
-        self.game_status_text.set(str(self.bill.total_charge) + " / " + str(self.number_of_players))
+        self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
         self.charge_label.pack()
         self.pay_bill_button.pack_forget()
         self.finish_button.pack(side=RIGHT)
@@ -109,7 +109,7 @@ class GameSlot(Frame):
         self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec.get())
         self.number_of_players = self.number_of_players_var.get()
         self.time_passed_in_sec.set(0)
-        self.game_status_text.set(str(self.bill.total_charge) + " / " + str(self.number_of_players))
+        self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
 
     def finish(self, event):
         self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec.get())
@@ -123,7 +123,7 @@ class GameSlot(Frame):
         self.finish_button.pack_forget()
         self.pay_bill_button.pack(side=RIGHT)
         self.change_number_of_players_button.forget()
-        self.game_status_text.set(str(self.bill.total_charge))
+        self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())))
         self.after(1000, self.start_button.pack(side=LEFT))
 
     def pay_bill(self, event):
