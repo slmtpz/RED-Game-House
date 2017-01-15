@@ -121,6 +121,7 @@ for i in range(0, game_slots_info.__len__()):
 
 bill_details = BillDetails(bill_detail_frame)
 bill_details.pack(side=LEFT, fill=BOTH)
+Label(bill_details, text="RED PlayStation", fg="red", font=("fixedsys", 30, "bold")).pack()
 
 # root.update()
 # print("height")

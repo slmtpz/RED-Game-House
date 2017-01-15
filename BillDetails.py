@@ -12,9 +12,11 @@ class BillDetails(Frame):
         bottom_frame = Frame(self)
         bottom_frame.pack(side=BOTTOM, fill=X)
 
-        total_text_label = Label(bottom_frame, text="TOPLAM: ", font=("Helvetica", 24))
+        Label(self, text="RED PlayStation", fg="red", font=("fixedsys", 30, "bold")).pack()
+
+        total_text_label = Label(bottom_frame, text="TOPLAM: ", fg="red", font=("Helvetica", 30))
         total_text_label.pack(side=LEFT)
-        total_charge_label = Label(bottom_frame, text=game_slot.bill.total_charge, font=("Helvetica", 24))
+        total_charge_label = Label(bottom_frame, text=game_slot.bill.total_charge, fg="red", font=("Helvetica", 30))
         total_charge_label.pack(side=RIGHT)
 
         for game in game_slot.bill.games:  # (game_type, number_of_players, time_passed_in_sec, game_charge)
@@ -22,7 +24,7 @@ class BillDetails(Frame):
             game_frame.pack(side=BOTTOM, fill=X)
             m, s = divmod(game[2], 60)
             time = "%d:%02d " % (m, s)
-            game_label = Label(game_frame, text=str(game[1])+" kişilik "+time+game[0]["name"], font=("Helvetica", 16))
+            game_label = Label(game_frame, text=str(game[1])+" kişilik "+game[0]["name"]+", Süre: "+time, font=("Helvetica", 16))
             game_label.pack(side=LEFT)
             game_charge_label = Label(game_frame, text=str(game[3]), font=("Helvetica", 16))
             game_charge_label.pack(side=RIGHT)
