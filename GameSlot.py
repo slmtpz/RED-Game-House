@@ -3,7 +3,7 @@ from Bill import *
 
 class GameSlot(Frame):
 
-    def __init__(self, game_slots_frame, slot_number, game_type, bill=False):
+    def __init__(self, game_slots_frame, slot_number, game_type):
 
         Frame.__init__(self, game_slots_frame, width=280, height=120, highlightbackground="black", highlightthickness=3)
 
@@ -12,12 +12,15 @@ class GameSlot(Frame):
         self.game_status = 0
         self.number_of_players = 0
         self.time_passed_in_sec = IntVar()
-        if bill:
-            self.bill = bill
-        else:
-            self.bill = Bill()
+        self.bill = Bill()
 
         self.set_inner_widgets()
+
+    def set_bill(self, bill):
+        self.bill = bill
+        self.pay_bill_button.pack(side=RIGHT)
+        self.add_extra_button.pack(side=LEFT)
+        self.transact_game_slot_button.pack(side=LEFT)
 
     def set_inner_widgets(self):
         self.pack_propagate(0)
@@ -38,6 +41,7 @@ class GameSlot(Frame):
         middle_left_frame.pack(side=LEFT)
         middle_right_frame = Frame(middle_frame, highlightthickness=1)
         middle_right_frame.pack(side=RIGHT)
+        self.middle_left_frame = middle_left_frame
 
         number_label = Label(top_left_frame, text=self.slot_number, font=("Helvetica", 16))
         number_label.pack(side=LEFT)
@@ -70,10 +74,10 @@ class GameSlot(Frame):
         self.add_extra_button = Button(middle_left_frame, text="Ekle", fg="purple", font=("Helvetica", 12))
         self.add_extra_button.bind("<Button-1>", self.add_extra)
 
-        ## debug
-        self.time_label = Label(top_left_frame, textvariable=self.time_passed_in_sec, font=("Helvetica", 16))
-        self.time_label.pack(side=LEFT)
-        ## debug
+        ## ## debug
+        ## self.time_label = Label(top_left_frame, textvariable=self.time_passed_in_sec, font=("Helvetica", 16))
+        ## self.time_label.pack(side=LEFT)
+        ## ## debug
 
     def second_hit(self):
         if self.game_status == 1:
@@ -130,6 +134,7 @@ class GameSlot(Frame):
         self.add_extra_button.forget()
         self.after(1000, self.start_button.pack(side=LEFT))
         self.add_extra_button.pack(side=LEFT)
+        self.transact_game_slot_button.pack(side=LEFT)
 
     def pay_bill(self, event):
         self.set_pay_bill_ui()
@@ -139,6 +144,7 @@ class GameSlot(Frame):
         self.pay_bill_button.pack_forget()
         self.charge_label.pack_forget()
         self.add_extra_button.forget()
+        self.transact_game_slot_button.forget()
 
     def add_extra(self, event):
         menu = Toplevel()
@@ -158,6 +164,24 @@ class GameSlot(Frame):
         for extra in extras:
             Button(menu, text=extra['name']+": "+str(extra['charge']), font=("Helvetica", 12), command=lambda extra=extra:self.bill.add_extra(extra)).pack()
 
-        quit_button = Button(menu, text="Kapa", command=menu.destroy).pack()
+        add_other_button = Button(menu, text="Başka...", fg="blue", command=self.add_other_popup).pack()
+        quit_button = Button(menu, text="Kapa", fg="red", command=menu.destroy).pack()
 
+    def add_other_popup(self):
+        menu = Toplevel()
+        menu.title("Başka ekle...")
 
+        desc_label = Label(menu, text="Açıklama:")
+        charge_label = Label(menu, text="Ücret:")
+        description = StringVar()
+        desc_entry = Entry(menu, textvariable=description)
+        charge = IntVar()
+        charge_entry = Entry(menu, textvariable=charge)
+
+        desc_label.grid(row=0)
+        charge_label.grid(row=1)
+        desc_entry.grid(row=0, column=1)
+        charge_entry.grid(row=1, column=1)
+
+        submit_button = Button(menu, text="Ekle", command=lambda: self.bill.add_other(description.get(), int(charge.get())))
+        submit_button.grid(columnspan=2)

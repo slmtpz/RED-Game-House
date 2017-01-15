@@ -4,8 +4,8 @@ from BillDetails import BillDetails
 import random
 
 
-number_of_game_slots = 22
-max_game_slots_in_one_row = 5
+number_of_game_slots = 15
+max_game_slots_in_one_row = 3
 game_types = [
     {
         'name': 'Playstation',
@@ -69,10 +69,28 @@ def generate_bill_details(event):
         bill_details.set_bill_for_game_slot(clicked_game_slot)
 
 
+def transact_game_slot(org_game_slot):
+    menu = Toplevel()
+    menu.title("Taşı...")
+
+    for game_slot in game_slots_frame.winfo_children():
+        if not game_slot.bill.is_active:
+            Button(menu, text=str(game_slot.slot_number), font=("Helvetica", 16), command=lambda game_slot=game_slot: transact(org_game_slot, game_slot, menu)).pack()
+
+    quit_button = Button(menu, text="Kapa", fg="red", command=menu.destroy).pack()
+
+def transact(org_game_slot, new_game_slot, menu):
+    menu.destroy()
+    bill = org_game_slot.bill
+    org_game_slot.pay_bill(0)
+    new_game_slot.set_bill(bill)
+
 for i in range(0, number_of_game_slots):
     game_slot = GameSlot(game_slots_frame, i + 1, random.choice(game_types))
     game_slot.grid(row=int(i/max_game_slots_in_one_row), column=i % max_game_slots_in_one_row, padx=10, pady=10)
     game_slot.bind("<Button-1>", generate_bill_details)
+
+    game_slot.transact_game_slot_button = Button(game_slot.middle_left_frame, text="Taşı", fg="brown", font=("Helvetica", 12), command=lambda game_slot=game_slot: transact_game_slot(game_slot))
 
 bill_details = BillDetails(bill_detail_frame)
 bill_details.pack(side=LEFT, fill=BOTH)

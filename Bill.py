@@ -23,5 +23,6 @@ class Bill:
         self.total_charge += extra['charge']
         self.extras.append(extra)
 
-    def add_other(self):
-        pass
+    def add_other(self, name, charge):
+        self.total_charge += charge
+        self.others.append((name, charge))
