@@ -9,49 +9,60 @@ game_types = [
         'charge': 5.00
     },
     {
-        'name': 'Guitar Hero',
-        'charge': 7.00
-    },
-    {
-        'name': 'Bilardo',
+        'name': 'Loca/Playstation',
         'charge': 10.00
-    },
-    {
-        'name': 'Langırt',
-        'charge': 1.00
     }
 ]
-game_slot_types = {
-    1: game_types[0],
-    2: game_types[1],
-    3: game_types[2],
-    4: game_types[3],
-    5: game_types[0],
-    6: game_types[1],
-    7: game_types[2],
-    8: game_types[3],
-    9: game_types[0],
-    10: game_types[1],
-    11: game_types[2],
-    12: game_types[3],
-    13: game_types[0],
-    14: game_types[1],
-    15: game_types[2],
-}
-extras = [
+game_slots_info = [
     {
-        'name': 'Cake',
-        'charge': 0.50
+        'name': 'Masa 1',
+        'type': 'Playstation',
     },
     {
-        'name': 'Coke 330ml',
-        'charge': 2.50
-    }
+        'name': 'Masa 2',
+        'type': 'Playstation',
+    },
+    {
+        'name': 'Masa 3',
+        'type': 'Playstation',
+    },
+    {
+        'name': 'Masa 4',
+        'type': 'Playstation',
+    },
+    {
+        'name': 'Masa 5',
+        'type': 'Playstation',
+    },
+    {
+        'name': 'Masa 6',
+        'type': 'Playstation',
+    },
+    {
+        'name': 'Masa 7',
+        'type': 'Playstation',
+    },
+    {
+        'name': 'Masa 8',
+        'type': 'Playstation',
+    },
+    {
+        'name': 'Loca 1',
+        'type': 'Loca/Playstation',
+    },
+    {
+        'name': 'Loca 2',
+        'type': 'Loca/Playstation',
+    },
+    {
+        'name': 'Loca 3',
+        'type': 'Loca/Playstation',
+    },
 ]
 
 
 root = Tk()
-root.wm_title("RED Game House")
+root.wm_title("RED Playstation")
 
 # I HATE FRONTEND
 # after all is finished, get the full screen size and assign frames with percentages..
@@ -93,14 +104,19 @@ def transact_game_slot(org_game_slot):
 
     quit_button = Button(menu, text="Kapa", fg="red", command=menu.destroy).pack()
 
+
 def transact(org_game_slot, new_game_slot, menu):
     menu.destroy()
     bill = org_game_slot.bill
     org_game_slot.pay_bill(0)
     new_game_slot.set_bill(bill)
 
-for i in range(0, game_slot_types.__len__()):
-    game_slot = GameSlot(game_slots_frame, i + 1, game_slot_types[i+1])
+for i in range(0, game_slots_info.__len__()):
+    for game_type in game_types:
+        if game_slots_info[i]['type'] == game_type['name']:
+            the_game_type = game_type
+            pass
+    game_slot = GameSlot(game_slots_frame, i + 1, the_game_type)
     game_slot.grid(row=int(i/max_game_slots_in_one_row), column=i % max_game_slots_in_one_row, padx=10, pady=10)
     game_slot.bind("<Button-1>", generate_bill_details)
 
