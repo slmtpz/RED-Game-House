@@ -54,7 +54,7 @@ class GameSlot(Frame):
         # game_type_label.pack(side=RIGHT)
 
         self.number_of_players_var = IntVar(middle_left_frame)
-        self.number_of_players_option = OptionMenu(middle_left_frame, self.number_of_players_var, *[1, 2, 3, 4, 5, 6])
+        self.number_of_players_option = OptionMenu(middle_left_frame, self.number_of_players_var, *[1, 2, 3, 4])
         self.number_of_players_var.set(2)
         self.number_of_players_option.pack(side=LEFT)
 

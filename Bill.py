@@ -15,9 +15,15 @@ class Bill:
         self.games.append((game_type, number_of_players, time_passed_in_sec, game_charge))
 
     def get_total_charge(self, game_type, number_of_players, time_passed_in_sec):
-        charge_per_half_hour = game_type['charge'] / 2
-        charge_per_man = charge_per_half_hour * (int(time_passed_in_sec / 3600) + 1)
-        return self.total_charge + charge_per_man * number_of_players
+        n = max(0, number_of_players - 2)
+        c = game_type['charge']
+
+        if time_passed_in_sec <= 1800:
+            game_charge = c / 2 + n
+        else:
+            game_charge = (c / 4 + n / 2) * (int(time_passed_in_sec / 900) + 1)
+
+        return self.total_charge + game_charge
 
     def add_extra(self, extra):
         print("Extra added.")
