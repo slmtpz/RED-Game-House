@@ -1,8 +1,10 @@
 from tkinter import *
 from GameSlot import GameSlot
 from BillDetails import BillDetails
+from consumption_parser import *
 
 max_game_slots_in_one_row = 3
+parse_consumption()
 game_types = [
     {
         'name': 'Playstation',
@@ -15,35 +17,35 @@ game_types = [
 ]
 game_slots_info = [
     {
-        'name': 'Masa 1',
+        'name': 'RED 1',
         'type': game_types[0],
     },
     {
-        'name': 'Masa 2',
+        'name': 'RED 2',
         'type': game_types[0],
     },
     {
-        'name': 'Masa 3',
+        'name': 'RED 3',
         'type': game_types[0],
     },
     {
-        'name': 'Masa 4',
+        'name': 'RED 4',
         'type': game_types[0],
     },
     {
-        'name': 'Masa 5',
+        'name': 'RED 5',
         'type': game_types[0],
     },
     {
-        'name': 'Masa 6',
+        'name': 'RED 6',
         'type': game_types[0],
     },
     {
-        'name': 'Masa 7',
+        'name': 'RED 7',
         'type': game_types[0],
     },
     {
-        'name': 'Masa 8',
+        'name': 'RED 8',
         'type': game_types[0],
     },
     {
@@ -59,7 +61,6 @@ game_slots_info = [
         'type': game_types[1],
     },
 ]
-
 
 root = Tk()
 root.wm_title("RED Playstation")
@@ -102,7 +103,7 @@ def transact_game_slot(org_game_slot):
         if not game_slot.bill.is_active:
             Button(menu, text=str(game_slot.game_info['name']), font=("Helvetica", 16), command=lambda game_slot=game_slot: transact(org_game_slot, game_slot, menu)).pack()
 
-    quit_button = Button(menu, text="Kapa", fg="red", command=menu.destroy).pack()
+    quit_button = Button(menu, text="Kapat", fg="red", command=menu.destroy).pack()
 
 
 def transact(org_game_slot, new_game_slot, menu):
@@ -121,7 +122,7 @@ for i in range(0, game_slots_info.__len__()):
 bill_details = BillDetails(bill_detail_frame)
 bill_details.pack(side=LEFT, fill=BOTH)
 
-root.update()
+# root.update()
 # print("height")
 # print(root.winfo_height())
 # print("width")

@@ -1,5 +1,6 @@
 from tkinter import *
 from Bill import *
+from consumption_parser import foods, drinks
 
 
 class GameSlot(Frame):
@@ -69,7 +70,7 @@ class GameSlot(Frame):
         self.finish_button = Button(middle_right_frame, text="Bitir", fg="red", font=("Helvetica", 12))
         self.finish_button.bind("<Button-1>", self.finish)
 
-        self.pay_bill_button = Button(middle_right_frame, text="Kapa", fg="red", font=("Helvetica", 12))
+        self.pay_bill_button = Button(middle_right_frame, text="Kapat", fg="red", font=("Helvetica", 12))
         self.pay_bill_button.bind("<Button-1>", self.pay_bill)
 
         self.game_status_text = StringVar()
@@ -114,6 +115,7 @@ class GameSlot(Frame):
         self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
         self.charge_label.pack()
         self.pay_bill_button.pack_forget()
+        self.transact_game_slot_button.forget()
         self.finish_button.pack(side=RIGHT)
         #self.change_number_of_players_button.pack(side=LEFT)
         self.add_extra_button.pack(side=LEFT)
@@ -137,7 +139,7 @@ class GameSlot(Frame):
         self.finish_button.pack_forget()
         self.pay_bill_button.pack(side=RIGHT)
         #self.change_number_of_players_button.forget()
-        self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())))
+        self.game_status_text.set(self.bill.total_charge)
         self.add_extra_button.forget()
         self.number_of_players_option.pack(side=LEFT)
         self.after(1000, self.start_button.pack(side=LEFT))
@@ -157,23 +159,24 @@ class GameSlot(Frame):
     def add_extra(self, event):
         menu = Toplevel()
         menu.title("Ekle...")
+        menu.grid_columnconfigure(0, weight=1)
+        menu.grid_columnconfigure(1, weight=1)
 
-        extras = [
-            {
-                'name': 'Cake',
-                'charge': 0.50
-            },
-            {
-                'name': 'Coke 330ml',
-                'charge': 2.50
-            }
-        ]
+        row = 0
+        for extra in foods:
+            food_button = Button(menu, text=extra['name']+": "+str(extra['charge']), anchor=W, font=("Helvetica", 12), command=lambda extra=extra:self.bill.add_extra(extra))
+            food_button.grid(row=row, column=0, sticky=W+E+S+N)
+            row += 1
+        row = 0
+        for extra in drinks:
+            drink_button = Button(menu, text=extra['name']+": "+str(extra['charge']), anchor=W, font=("Helvetica", 12), command=lambda extra=extra:self.bill.add_extra(extra))
+            drink_button.grid(row=row, column=1, sticky=W+E+S+N)
+            row += 1
 
-        for extra in extras:
-            Button(menu, text=extra['name']+": "+str(extra['charge']), font=("Helvetica", 12), command=lambda extra=extra:self.bill.add_extra(extra)).pack()
-
-        add_other_button = Button(menu, text="Başka...", fg="blue", command=self.add_other_popup).pack()
-        quit_button = Button(menu, text="Kapa", fg="red", command=menu.destroy).pack()
+        add_other_button = Button(menu, text="Başka...", fg="blue", font=("Helvetica", 12), command=self.add_other_popup)
+        add_other_button.grid(columnspan=2, sticky=W+E+S+N)
+        quit_button = Button(menu, text="Kapat", fg="red", font=("Helvetica", 12), command=menu.destroy)
+        quit_button.grid(columnspan=2, sticky=W+E+S+N)
 
     def add_other_popup(self):
         menu = Toplevel()
