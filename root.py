@@ -16,47 +16,47 @@ game_types = [
 game_slots_info = [
     {
         'name': 'Masa 1',
-        'type': 'Playstation',
+        'type': game_types[0],
     },
     {
         'name': 'Masa 2',
-        'type': 'Playstation',
+        'type': game_types[0],
     },
     {
         'name': 'Masa 3',
-        'type': 'Playstation',
+        'type': game_types[0],
     },
     {
         'name': 'Masa 4',
-        'type': 'Playstation',
+        'type': game_types[0],
     },
     {
         'name': 'Masa 5',
-        'type': 'Playstation',
+        'type': game_types[0],
     },
     {
         'name': 'Masa 6',
-        'type': 'Playstation',
+        'type': game_types[0],
     },
     {
         'name': 'Masa 7',
-        'type': 'Playstation',
+        'type': game_types[0],
     },
     {
         'name': 'Masa 8',
-        'type': 'Playstation',
+        'type': game_types[0],
     },
     {
         'name': 'Loca 1',
-        'type': 'Loca/Playstation',
+        'type': game_types[1],
     },
     {
         'name': 'Loca 2',
-        'type': 'Loca/Playstation',
+        'type': game_types[1],
     },
     {
         'name': 'Loca 3',
-        'type': 'Loca/Playstation',
+        'type': game_types[1],
     },
 ]
 
@@ -100,7 +100,7 @@ def transact_game_slot(org_game_slot):
 
     for game_slot in game_slots_frame.winfo_children():
         if not game_slot.bill.is_active:
-            Button(menu, text=str(game_slot.slot_number), font=("Helvetica", 16), command=lambda game_slot=game_slot: transact(org_game_slot, game_slot, menu)).pack()
+            Button(menu, text=str(game_slot.game_info['name']), font=("Helvetica", 16), command=lambda game_slot=game_slot: transact(org_game_slot, game_slot, menu)).pack()
 
     quit_button = Button(menu, text="Kapa", fg="red", command=menu.destroy).pack()
 
@@ -112,11 +112,7 @@ def transact(org_game_slot, new_game_slot, menu):
     new_game_slot.set_bill(bill)
 
 for i in range(0, game_slots_info.__len__()):
-    for game_type in game_types:
-        if game_slots_info[i]['type'] == game_type['name']:
-            the_game_type = game_type
-            pass
-    game_slot = GameSlot(game_slots_frame, i + 1, the_game_type)
+    game_slot = GameSlot(game_slots_frame, i + 1, game_slots_info[i])
     game_slot.grid(row=int(i/max_game_slots_in_one_row), column=i % max_game_slots_in_one_row, padx=10, pady=10)
     game_slot.bind("<Button-1>", generate_bill_details)
 

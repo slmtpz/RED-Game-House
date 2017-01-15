@@ -4,12 +4,13 @@ from Bill import *
 
 class GameSlot(Frame):
 
-    def __init__(self, game_slots_frame, slot_number, game_type):
+    def __init__(self, game_slots_frame, slot_number, game_info):
 
         Frame.__init__(self, game_slots_frame, width=280, height=120, highlightbackground="black", highlightthickness=3)
 
+        self.game_info = game_info
         self.slot_number = slot_number
-        self.game_type = game_type
+        self.game_type = game_info['type']
         self.game_status = 0
         self.number_of_players = 0
         self.time_passed_in_sec = IntVar()
@@ -44,11 +45,13 @@ class GameSlot(Frame):
         middle_right_frame.pack(side=RIGHT)
         self.middle_left_frame = middle_left_frame
 
-        number_label = Label(top_left_frame, text=self.slot_number, font=("Helvetica", 16))
-        number_label.pack(side=LEFT)
+        # number_label = Label(top_left_frame, text=self.slot_number, font=("Helvetica", 16))
+        # number_label.pack(side=LEFT)
+        game_slot_name_label = Label(top_left_frame, text=self.game_info['name'], font=("Helvetica", 16))
+        game_slot_name_label.pack(side=LEFT)
 
-        game_type_label = Label(top_right_frame, text=self.game_type['name'], font=("Helvetica", 16))
-        game_type_label.pack(side=RIGHT)
+        # game_type_label = Label(top_right_frame, text=self.game_type['name'], font=("Helvetica", 16))
+        # game_type_label.pack(side=RIGHT)
 
         self.number_of_players_var = IntVar(middle_left_frame)
         self.number_of_players_option = OptionMenu(middle_left_frame, self.number_of_players_var, *[1, 2, 3, 4, 5, 6])
