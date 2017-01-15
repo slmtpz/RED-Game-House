@@ -1,7 +1,6 @@
 from tkinter import *
 from Bill import *
 
-
 class GameSlot(Frame):
 
     def __init__(self, game_slots_frame, slot_number, game_type, bill=False):
@@ -68,6 +67,9 @@ class GameSlot(Frame):
         self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
         self.charge_label = Label(bottom_frame, textvariable=self.game_status_text, font=("Helvetica", 26))
 
+        self.add_extra_button = Button(middle_left_frame, text="Ekle", fg="purple", font=("Helvetica", 12))
+        self.add_extra_button.bind("<Button-1>", self.add_extra)
+
         ## debug
         self.time_label = Label(top_left_frame, textvariable=self.time_passed_in_sec, font=("Helvetica", 16))
         self.time_label.pack(side=LEFT)
@@ -104,6 +106,7 @@ class GameSlot(Frame):
         self.pay_bill_button.pack_forget()
         self.finish_button.pack(side=RIGHT)
         self.change_number_of_players_button.pack(side=LEFT)
+        self.add_extra_button.pack(side=LEFT)
 
     def change_number_of_players(self, event):
         self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec.get())
@@ -124,7 +127,9 @@ class GameSlot(Frame):
         self.pay_bill_button.pack(side=RIGHT)
         self.change_number_of_players_button.forget()
         self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())))
+        self.add_extra_button.forget()
         self.after(1000, self.start_button.pack(side=LEFT))
+        self.add_extra_button.pack(side=LEFT)
 
     def pay_bill(self, event):
         self.set_pay_bill_ui()
@@ -133,5 +138,26 @@ class GameSlot(Frame):
     def set_pay_bill_ui(self):
         self.pay_bill_button.pack_forget()
         self.charge_label.pack_forget()
+        self.add_extra_button.forget()
+
+    def add_extra(self, event):
+        menu = Toplevel()
+        menu.title("Ekle...")
+
+        extras = [
+            {
+                'name': 'Cake',
+                'charge': 0.50
+            },
+            {
+                'name': 'Coke 330ml',
+                'charge': 2.50
+            }
+        ]
+
+        for extra in extras:
+            Button(menu, text=extra['name']+": "+str(extra['charge']), font=("Helvetica", 12), command=lambda extra=extra:self.bill.add_extra(extra)).pack()
+
+        quit_button = Button(menu, text="Kapa", command=menu.destroy).pack()
 
 

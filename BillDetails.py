@@ -20,11 +20,21 @@ class BillDetails(Frame):
         for game in game_slot.bill.games:  # (game_type, number_of_players, time_passed_in_sec, game_charge)
             game_frame = Frame(self)
             game_frame.pack(side=BOTTOM, fill=X)
-            game_label = Label(game_frame, text=game[0]["name"]+" / "+str(game[1]), font=("Helvetica", 16))
+            game_label = Label(game_frame, text=str(game[1])+" kişilik "+str(game[2])+" saniye "+game[0]["name"], font=("Helvetica", 16))
             game_label.pack(side=LEFT)
-            game_charge_label = Label(game_frame, text=str(game[2])+" / "+str(game[3]))
+            game_charge_label = Label(game_frame, text=str(game[3]), font=("Helvetica", 16))
             game_charge_label.pack(side=RIGHT)
 
+        for extra in game_slot.bill.extras: # extra
+            extra_frame = Frame(self)
+            extra_frame.pack(side=BOTTOM, fill=X)
+            extra_label = Label(extra_frame, text=extra['name'], font=("Helvetica", 16))
+            extra_label.pack(side=LEFT)
+            extra_charge_label = Label(extra_frame, text=extra['charge'], font=("Helvetica", 16))
+            extra_charge_label.pack(side=RIGHT)
+
+    def set_bill_empty(self):
+        self.forget_bill()
 
     def forget_bill(self):
         for widget in self.pack_slaves():

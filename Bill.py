@@ -2,7 +2,7 @@ class Bill:
 
     def __init__(self):
         self.games = []  # tuple (game_type, number_of_players, time_passed_in_sec, game_charge)
-        self.consumptions = []
+        self.extras = []
         self.others = []
         self.charges = []
         self.total_charge = 0.0
@@ -19,8 +19,9 @@ class Bill:
         charge_per_man = charge_per_half_hour * (int(time_passed_in_sec / 3600) + 1)
         return self.total_charge + charge_per_man * number_of_players
 
-    def add_consumption(self):
-        pass
+    def add_extra(self, extra):
+        self.total_charge += extra['charge']
+        self.extras.append(extra)
 
     def add_other(self):
         pass

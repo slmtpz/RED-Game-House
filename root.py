@@ -24,6 +24,16 @@ game_types = [
         'charge': 1.00
     }
 ]
+extras = [
+    {
+        'name': 'Cake',
+        'charge': 0.50
+    },
+    {
+        'name': 'Coke 330ml',
+        'charge': 2.50
+    }
+]
 
 
 root = Tk()
@@ -49,6 +59,7 @@ def generate_bill_details(event):
 
     if saved_clicked_game_slot == clicked_game_slot:
         clicked_game_slot.set_released()
+        bill_details.set_bill_empty()
         saved_clicked_game_slot = -1
     else:
         clicked_game_slot.set_clicked()
