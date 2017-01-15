@@ -1,10 +1,7 @@
 from tkinter import *
 from GameSlot import GameSlot
 from BillDetails import BillDetails
-import random
 
-
-number_of_game_slots = 15
 max_game_slots_in_one_row = 3
 game_types = [
     {
@@ -24,6 +21,23 @@ game_types = [
         'charge': 1.00
     }
 ]
+game_slot_types = {
+    1: game_types[0],
+    2: game_types[1],
+    3: game_types[2],
+    4: game_types[3],
+    5: game_types[0],
+    6: game_types[1],
+    7: game_types[2],
+    8: game_types[3],
+    9: game_types[0],
+    10: game_types[1],
+    11: game_types[2],
+    12: game_types[3],
+    13: game_types[0],
+    14: game_types[1],
+    15: game_types[2],
+}
 extras = [
     {
         'name': 'Cake',
@@ -85,8 +99,8 @@ def transact(org_game_slot, new_game_slot, menu):
     org_game_slot.pay_bill(0)
     new_game_slot.set_bill(bill)
 
-for i in range(0, number_of_game_slots):
-    game_slot = GameSlot(game_slots_frame, i + 1, random.choice(game_types))
+for i in range(0, game_slot_types.__len__()):
+    game_slot = GameSlot(game_slots_frame, i + 1, game_slot_types[i+1])
     game_slot.grid(row=int(i/max_game_slots_in_one_row), column=i % max_game_slots_in_one_row, padx=10, pady=10)
     game_slot.bind("<Button-1>", generate_bill_details)
 
@@ -96,9 +110,9 @@ bill_details = BillDetails(bill_detail_frame)
 bill_details.pack(side=LEFT, fill=BOTH)
 
 root.update()
-print("height")
-print(root.winfo_height())
-print("width")
-print(root.winfo_width())
+# print("height")
+# print(root.winfo_height())
+# print("width")
+# print(root.winfo_width())
 root.mainloop()
 

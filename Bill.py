@@ -20,9 +20,11 @@ class Bill:
         return self.total_charge + charge_per_man * number_of_players
 
     def add_extra(self, extra):
+        print("Extra added.")
         self.total_charge += extra['charge']
         self.extras.append(extra)
 
     def add_other(self, name, charge):
+        print("Other added.")
         self.total_charge += charge
         self.others.append((name, charge))
