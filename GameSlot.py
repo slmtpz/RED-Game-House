@@ -1,6 +1,7 @@
 from tkinter import *
 from Bill import *
 
+
 class GameSlot(Frame):
 
     def __init__(self, game_slots_frame, slot_number, game_type):
@@ -50,16 +51,17 @@ class GameSlot(Frame):
         game_type_label.pack(side=RIGHT)
 
         self.number_of_players_var = IntVar(middle_left_frame)
-        number_of_players_option = OptionMenu(middle_left_frame, self.number_of_players_var, *[1, 2, 3, 4, 5, 6])
+        self.number_of_players_option = OptionMenu(middle_left_frame, self.number_of_players_var, *[1, 2, 3, 4, 5, 6])
         self.number_of_players_var.set(2)
-        number_of_players_option.pack(side=LEFT)
+        self.number_of_players_option.pack(side=LEFT)
 
         self.start_button = Button(middle_left_frame, text="Başlat", fg="green", font=("Helvetica", 12))
         self.start_button.bind("<Button-1>", self.start)
         self.start_button.pack(side=LEFT)
 
-        self.change_number_of_players_button = Button(middle_left_frame, text="Değiştir", fg="orange", font=("Helvetica", 12))
-        self.change_number_of_players_button.bind("<Button-1>", self.change_number_of_players)
+        # removed due to customer feedback
+        # self.change_number_of_players_button = Button(middle_left_frame, text="Değiştir", fg="orange", font=("Helvetica", 12))
+        # self.change_number_of_players_button.bind("<Button-1>", self.change_number_of_players)
 
         self.finish_button = Button(middle_right_frame, text="Bitir", fg="red", font=("Helvetica", 12))
         self.finish_button.bind("<Button-1>", self.finish)
@@ -103,20 +105,22 @@ class GameSlot(Frame):
 
     def set_start_ui(self):
         self.charge_label.config(fg="red")
+        self.number_of_players_option.forget()
         self.start_button.pack_forget()
         self.number_of_players = self.number_of_players_var.get()
         self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
         self.charge_label.pack()
         self.pay_bill_button.pack_forget()
         self.finish_button.pack(side=RIGHT)
-        self.change_number_of_players_button.pack(side=LEFT)
+        #self.change_number_of_players_button.pack(side=LEFT)
         self.add_extra_button.pack(side=LEFT)
 
-    def change_number_of_players(self, event):
-        self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec.get())
-        self.number_of_players = self.number_of_players_var.get()
-        self.time_passed_in_sec.set(0)
-        self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
+    # removed due to customer feedback
+    # def change_number_of_players(self, event):
+    #     self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec.get())
+    #     self.number_of_players = self.number_of_players_var.get()
+    #     self.time_passed_in_sec.set(0)
+    #     self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
 
     def finish(self, event):
         self.bill.add_game(self.game_type, self.number_of_players, self.time_passed_in_sec.get())
@@ -129,9 +133,10 @@ class GameSlot(Frame):
         self.charge_label.config(fg="black")
         self.finish_button.pack_forget()
         self.pay_bill_button.pack(side=RIGHT)
-        self.change_number_of_players_button.forget()
+        #self.change_number_of_players_button.forget()
         self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())))
         self.add_extra_button.forget()
+        self.number_of_players_option.pack(side=LEFT)
         self.after(1000, self.start_button.pack(side=LEFT))
         self.add_extra_button.pack(side=LEFT)
         self.transact_game_slot_button.pack(side=LEFT)
