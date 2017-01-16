@@ -12,8 +12,6 @@ class BillDetails(Frame):
         bottom_frame = Frame(self)
         bottom_frame.pack(side=BOTTOM, fill=X)
 
-        Label(self, text="RED PlayStation", fg="red", font=("fixedsys", 30, "bold")).pack()
-
         total_text_label = Label(bottom_frame, text="TOPLAM: ", fg="red", font=("Helvetica", 30))
         total_text_label.pack(side=LEFT)
         total_charge_label = Label(bottom_frame, text=game_slot.bill.total_charge, fg="red", font=("Helvetica", 30))
@@ -51,3 +49,4 @@ class BillDetails(Frame):
     def forget_bill(self):
         for widget in self.pack_slaves():
             widget.pack_forget()
+        Label(self, text="RED PlayStation", fg="red", font=("fixedsys", 30, "bold")).pack()
