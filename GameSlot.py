@@ -7,7 +7,7 @@ class GameSlot(Frame):
 
     def __init__(self, game_slots_frame, slot_number, game_info):
 
-        Frame.__init__(self, game_slots_frame, width=280, height=120, highlightbackground="black", highlightthickness=3)
+        Frame.__init__(self, game_slots_frame, highlightbackground="black", highlightthickness=3)
 
         self.game_info = game_info
         self.slot_number = slot_number
@@ -159,24 +159,33 @@ class GameSlot(Frame):
     def add_extra(self, event):
         menu = Toplevel()
         menu.title("Ekle...")
-        menu.grid_columnconfigure(0, weight=1)
-        menu.grid_columnconfigure(1, weight=1)
 
         row = 0
+        column = 0
         for extra in foods:
+            print(extra['name'] + " row: " + str(row) + " column: " + str(column))
             food_button = Button(menu, text=extra['name']+": "+str(extra['charge']), anchor=W, font=("Helvetica", 8), command=lambda extra=extra:self.bill.add_extra(extra))
-            food_button.grid(row=row, column=0, sticky=W+E+S+N)
+            food_button.grid(row=row, column=column, sticky=W+E+S+N)
             row += 1
+            if row > 20:
+                row = 0
+                column += 1
         row = 0
+        column += 1
         for extra in drinks:
             drink_button = Button(menu, text=extra['name']+": "+str(extra['charge']), anchor=W, font=("Helvetica", 8), command=lambda extra=extra:self.bill.add_extra(extra))
-            drink_button.grid(row=row, column=1, sticky=W+E+S+N)
+            drink_button.grid(row=row, column=column, sticky=W+E+S+N)
             row += 1
+            if row > 20:
+                row = 1
+                column += 1
 
         add_other_button = Button(menu, text="Başka...", fg="blue", font=("Helvetica", 12), command=self.add_other_popup)
         add_other_button.grid(columnspan=2, sticky=W+E+S+N)
         quit_button = Button(menu, text="Kapat", fg="red", font=("Helvetica", 12), command=menu.destroy)
         quit_button.grid(columnspan=2, sticky=W+E+S+N)
+
+
 
     def add_other_popup(self):
         menu = Toplevel()

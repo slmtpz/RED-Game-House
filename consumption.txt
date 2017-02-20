@@ -25,14 +25,13 @@ Karam=1.75
 Alpella Beyaz=1.25
 Probis=1.00
 Halley=1.00
--
 Çubuk Kraker=1.00
 Susamlı Çubuk=1.50
 Krispi=1.50
 Vivident=3.00
 Big babol=2.00
 Tost=2.50
-ICECEKLER=0.0
+-
 Coca Cola (Kutu)=2.50
 Fanta (Kutu)=2.50
 Ice Tea (Kutu)=2.50

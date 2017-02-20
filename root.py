@@ -64,16 +64,33 @@ game_slots_info = [
 
 root = Tk()
 root.wm_title("RED Playstation")
+# root.resizable(False, False)
+#root.attributes("-fullscreen", True)
+
+def toggle_fullscreen(event=None):
+    root.attributes("-fullscreen", True)
+
+def end_fullscreen(event=None):
+    root.attributes("-fullscreen", False)
+    root.geometry("1134x600")
+
+root.bind("<F11>", toggle_fullscreen)
+root.bind("<Escape>", end_fullscreen)
+
+end_fullscreen()
+root.minsize(920, 600)
+h = root.winfo_height()
+w = root.winfo_width()
 
 # I HATE FRONTEND
 # after all is finished, get the full screen size and assign frames with percentages..
 
 
-game_slots_frame = Frame(root, width=500, height=608, highlightbackground="Orange", highlightthickness=4)
-game_slots_frame.pack(side=LEFT, fill=BOTH)
+game_slots_frame = Frame(root, highlightbackground="Orange", highlightthickness=4)
+game_slots_frame.pack(side=LEFT, fill=BOTH, expand=True)
 
-bill_detail_frame = Frame(root, width=400, height=608, highlightbackground="Purple", highlightthickness=4)
-bill_detail_frame.pack(side=LEFT, fill=BOTH)
+bill_detail_frame = Frame(root, highlightbackground="Purple", highlightthickness=4)
+bill_detail_frame.pack(side=RIGHT, fill=BOTH)
 
 
 saved_clicked_game_slot = -1
@@ -122,6 +139,16 @@ for i in range(0, game_slots_info.__len__()):
 bill_details = BillDetails(bill_detail_frame)
 bill_details.pack(side=LEFT, fill=BOTH)
 Label(bill_details, text="RED PlayStation", fg="red", font=("fixedsys", 30, "bold")).pack()
+
+
+def resized(event):
+    h = event.height
+    w = event.width
+    # print(w,h)
+    for game_slot in game_slots_frame.winfo_children():
+        game_slot.config(width=w*29/100, height=h*21/100)
+
+game_slots_frame.bind('<Configure>', resized)
 
 # root.update()
 # print("height")
