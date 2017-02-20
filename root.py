@@ -8,7 +8,7 @@ parse_consumption()
 game_types = [
     {
         'name': 'Playstation',
-        'charge': 5.00
+        'charge': 6.00
     },
     {
         'name': 'Loca/Playstation',

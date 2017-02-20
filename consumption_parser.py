@@ -1,9 +1,12 @@
 import codecs
+import os.path
 
 foods = []
 drinks = []
 def parse_consumption():
-    f = codecs.open('consumption.txt', 'r', 'utf8')
+    scriptpath = os.path.dirname(__file__)
+    filename = os.path.join(scriptpath, 'consumption.txt')
+    f = codecs.open(filename , 'r', 'utf8')
     timeTo = 'foods'
     for line in f:
         try:

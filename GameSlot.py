@@ -77,7 +77,7 @@ class GameSlot(Frame):
         self.game_status_text.set(str(self.bill.get_total_charge(self.game_type, self.number_of_players, self.time_passed_in_sec.get())) + " / " + str(self.number_of_players))
         self.charge_label = Label(bottom_frame, textvariable=self.game_status_text, font=("Helvetica", 26))
 
-        self.add_extra_button = Button(middle_left_frame, text="Ekle", fg="purple", font=("Helvetica", 12))
+        self.add_extra_button = Button(middle_left_frame, text="Ekle", fg="purple", font=("Helvetica", 10))
         self.add_extra_button.bind("<Button-1>", self.add_extra)
 
         ## ## debug
@@ -164,12 +164,12 @@ class GameSlot(Frame):
 
         row = 0
         for extra in foods:
-            food_button = Button(menu, text=extra['name']+": "+str(extra['charge']), anchor=W, font=("Helvetica", 12), command=lambda extra=extra:self.bill.add_extra(extra))
+            food_button = Button(menu, text=extra['name']+": "+str(extra['charge']), anchor=W, font=("Helvetica", 8), command=lambda extra=extra:self.bill.add_extra(extra))
             food_button.grid(row=row, column=0, sticky=W+E+S+N)
             row += 1
         row = 0
         for extra in drinks:
-            drink_button = Button(menu, text=extra['name']+": "+str(extra['charge']), anchor=W, font=("Helvetica", 12), command=lambda extra=extra:self.bill.add_extra(extra))
+            drink_button = Button(menu, text=extra['name']+": "+str(extra['charge']), anchor=W, font=("Helvetica", 8), command=lambda extra=extra:self.bill.add_extra(extra))
             drink_button.grid(row=row, column=1, sticky=W+E+S+N)
             row += 1
 
@@ -186,7 +186,7 @@ class GameSlot(Frame):
         charge_label = Label(menu, text="Ücret:")
         description = StringVar()
         desc_entry = Entry(menu, textvariable=description)
-        charge = IntVar()
+        charge = DoubleVar()
         charge_entry = Entry(menu, textvariable=charge)
 
         desc_label.grid(row=0)
@@ -194,5 +194,5 @@ class GameSlot(Frame):
         desc_entry.grid(row=0, column=1)
         charge_entry.grid(row=1, column=1)
 
-        submit_button = Button(menu, text="Ekle", command=lambda: self.bill.add_other(description.get(), int(charge.get())))
+        submit_button = Button(menu, text="Ekle", command=lambda: self.bill.add_other(description.get(), float(charge.get())))
         submit_button.grid(columnspan=2)
