@@ -48,8 +48,8 @@ class GameSlot(Frame):
 
         # number_label = Label(top_left_frame, text=self.slot_number, font=("Helvetica", 16))
         # number_label.pack(side=LEFT)
-        game_slot_name_label = Label(top_left_frame, text=self.game_info['name'], font=("Helvetica", 16))
-        game_slot_name_label.pack(side=LEFT)
+        self.game_slot_name_label = Label(top_left_frame, text=self.game_info['name'], font=("Helvetica", 16))
+        self.game_slot_name_label.pack(side=LEFT)
 
         # game_type_label = Label(top_right_frame, text=self.game_type['name'], font=("Helvetica", 16))
         # game_type_label.pack(side=RIGHT)

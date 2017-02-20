@@ -65,26 +65,12 @@ game_slots_info = [
 root = Tk()
 root.wm_title("RED Playstation")
 # root.resizable(False, False)
-#root.attributes("-fullscreen", True)
+root.geometry("1134x600")
 
-def toggle_fullscreen(event=None):
-    root.attributes("-fullscreen", True)
-
-def end_fullscreen(event=None):
-    root.attributes("-fullscreen", False)
-    root.geometry("1134x600")
-
-root.bind("<F11>", toggle_fullscreen)
-root.bind("<Escape>", end_fullscreen)
-
-end_fullscreen()
-root.minsize(920, 600)
 h = root.winfo_height()
 w = root.winfo_width()
 
 # I HATE FRONTEND
-# after all is finished, get the full screen size and assign frames with percentages..
-
 
 game_slots_frame = Frame(root, highlightbackground="Orange", highlightthickness=4)
 game_slots_frame.pack(side=LEFT, fill=BOTH, expand=True)
@@ -150,10 +136,43 @@ def resized(event):
 
 game_slots_frame.bind('<Configure>', resized)
 
-# root.update()
+#root.update()
+
 # print("height")
 # print(root.winfo_height())
 # print("width")
 # print(root.winfo_width())
+
+info_frame = Frame(game_slots_frame)
+info_label = Label(info_frame, text="F11=Fullscreen \n ESC=Windowed", font=("Helvetica", 16))
+info_label.pack(side=BOTTOM)
+info_frame.grid_propagate(0)
+info_frame.grid(row=3, column=2, padx=10, pady=10)
+
+def toggle_fullscreen(event=None):
+    root.attributes("-fullscreen", True)
+    for game_slot in game_slots_frame.winfo_children():
+        if type(game_slot) is GameSlot:
+            game_slot.config(width=w * 29 / 100, height=h * 21 / 100)
+            game_slot.game_slot_name_label.config(font=("Helvetica", 26))
+            game_slot.charge_label.config(font=("Helvetica", 50))
+    root.update()
+
+
+def end_fullscreen(event=None):
+    root.attributes("-fullscreen", False)
+    root.geometry("1134x600")
+    for game_slot in game_slots_frame.winfo_children():
+        if type(game_slot) is GameSlot:
+            game_slot.config(width=w * 29 / 100, height=h * 21 / 100)
+            game_slot.game_slot_name_label.config(font=("Helvetica", 16))
+            game_slot.charge_label.config(font=("Helvetica", 26))
+    root.update()
+
+root.bind("<F11>", toggle_fullscreen)
+root.bind("<Escape>", end_fullscreen)
+
+toggle_fullscreen()
+root.minsize(920, 600)
 root.mainloop()
 
