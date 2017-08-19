@@ -12,10 +12,17 @@ game_types = [
         'name': 'Playstation',
         'charge': 6.00
     },
+
     {
         'name': 'Loca/Playstation',
         'charge': 10.00
+    },
+
+    {
+        'name': 'Bilardo',
+        'charge': 15.00
     }
+
 ]
 game_slots_info = [
     {
@@ -61,6 +68,10 @@ game_slots_info = [
     {
         'name': 'Loca 3',
         'type': game_types[1],
+    },
+    {
+        'name': 'Bilardo 1',
+        'type': game_types[2],
     },
 ]
 
@@ -150,11 +161,11 @@ game_slots_frame.bind('<Configure>', resized)
 # print("width")
 # print(root.winfo_width())
 
-info_frame = Frame(game_slots_frame)
-info_label = Label(info_frame, text="F11=Fullscreen \n ESC=Windowed", font=("Helvetica", 16))
-info_label.pack(side=BOTTOM)
-info_frame.grid_propagate(0)
-info_frame.grid(row=3, column=2, padx=10, pady=10)
+# info_frame = Frame(game_slots_frame)
+# info_label = Label(info_frame, text="F11=Fullscreen \n ESC=Windowed", font=("Helvetica", 16))
+# info_label.pack(side=BOTTOM)
+# info_frame.grid_propagate(0)
+# info_frame.grid(row=3, column=2, padx=10, pady=10)
 
 def toggle_fullscreen(event=None):
     root.attributes("-fullscreen", True)
