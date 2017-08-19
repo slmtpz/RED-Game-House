@@ -2,6 +2,8 @@ from tkinter import *
 from GameSlot import GameSlot
 from BillDetails import BillDetails
 from consumption_parser import *
+import CafeDB as db
+db.init()
 
 max_game_slots_in_one_row = 3
 parse_consumption()
@@ -73,6 +75,7 @@ w = root.winfo_width()
 # I HATE FRONTEND
 
 game_slots_frame = Frame(root, highlightbackground="Orange", highlightthickness=4)
+game_slots_frame.configure(background='grey')
 game_slots_frame.pack(side=LEFT, fill=BOTH, expand=True)
 
 bill_detail_frame = Frame(root, highlightbackground="Purple", highlightthickness=4)
@@ -82,9 +85,9 @@ bill_detail_frame.pack(side=RIGHT, fill=BOTH)
 saved_clicked_game_slot = -1
 
 
-def generate_bill_details(event):
+def generate_bill_details(event, game_slot):
     global saved_clicked_game_slot
-    clicked_game_slot = event.widget
+    clicked_game_slot = game_slot
 
     if saved_clicked_game_slot == clicked_game_slot:
         clicked_game_slot.set_released()
@@ -103,9 +106,11 @@ def transact_game_slot(org_game_slot):
     menu.title("Taşı...")
 
     for game_slot in game_slots_frame.winfo_children():
-        if not game_slot.bill.is_active:
-            Button(menu, text=str(game_slot.game_info['name']), font=("Helvetica", 16), command=lambda game_slot=game_slot: transact(org_game_slot, game_slot, menu)).pack()
-
+        try:
+            if not game_slot.bill.is_active:
+                Button(menu, text=str(game_slot.game_info['name']), font=("Helvetica", 16), command=lambda game_slot=game_slot: transact(org_game_slot, game_slot, menu)).pack()
+        except AttributeError:
+            pass
     quit_button = Button(menu, text="Kapat", fg="red", command=menu.destroy).pack()
 
 
@@ -118,7 +123,9 @@ def transact(org_game_slot, new_game_slot, menu):
 for i in range(0, game_slots_info.__len__()):
     game_slot = GameSlot(game_slots_frame, i + 1, game_slots_info[i])
     game_slot.grid(row=int(i/max_game_slots_in_one_row), column=i % max_game_slots_in_one_row, padx=10, pady=10)
-    game_slot.bind("<Button-1>", generate_bill_details)
+    game_slot.bind("<Button-1>",lambda event, game_slot=game_slot: generate_bill_details(event, game_slot))
+    for widget in game_slot.clickable_chidren:
+        widget.bind("<Button-1>",lambda event, game_slot=game_slot: generate_bill_details(event, game_slot))
 
     game_slot.transact_game_slot_button = Button(game_slot.middle_left_frame, text="Taşı", fg="brown", font=("Helvetica", 12), command=lambda game_slot=game_slot: transact_game_slot(game_slot))
 
