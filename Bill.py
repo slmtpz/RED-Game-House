@@ -1,6 +1,10 @@
+import datetime
+
 class Bill:
 
     def __init__(self):
+        self.startingTime = ''
+        self.endingTime = ''
         self.games = []  # tuple (game_type, number_of_players, time_passed_in_sec, game_charge)
         self.extras = []
         self.others = []
