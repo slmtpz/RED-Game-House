@@ -10,12 +10,12 @@ parse_consumption()
 game_types = [
     {
         'name': 'Playstation',
-        'charge': 6.00
+        'charge': 8.00
     },
 
     {
         'name': 'Loca/Playstation',
-        'charge': 10.00
+        'charge': 12.00
     },
 
     {
@@ -58,15 +58,11 @@ game_slots_info = [
         'type': game_types[0],
     },
     {
+        'name': 'RED 9',
+        'type': game_types[0],
+    },
+    {
         'name': 'Loca 1',
-        'type': game_types[1],
-    },
-    {
-        'name': 'Loca 2',
-        'type': game_types[1],
-    },
-    {
-        'name': 'Loca 3',
         'type': game_types[1],
     },
     {

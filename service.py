@@ -19,6 +19,7 @@ for result in results:
     currAgg.append(result[2:])
 
 send = ''
+income = 0
 for agg in aggregated:
     send += '________________________________\n'
     send += 'Başlama Zamanı: ' + agg[0][:-7] + '\n'
@@ -33,6 +34,8 @@ for agg in aggregated:
         send += 'Ücret: ' + str(each[3]) + '\n\n'
         total += each[3]
     send += 'Toplam: ' + str(total) + '\n\n'
+    income += total
+send += 'Toplam gunluk gelir: ' + str(income)
 
 
 msg = MIMEText(send)
@@ -41,7 +44,7 @@ msg['Subject'] = 'RED Playstation Cafe Ozeti'
 msg['From'] = setts.FROM
 msg['To'] = setts.TO
 
-s = smtplib.SMTP(host='smtp-mail.outlook.com', port=587)
+s = smtplib.SMTP(host='smtp.gmail.com', port=587)
 s.starttls()
 s.login(setts.MAIL, setts.PASS)
 s.send_message(msg)
